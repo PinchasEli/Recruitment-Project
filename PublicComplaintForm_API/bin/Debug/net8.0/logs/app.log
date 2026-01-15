@@ -1,0 +1,135 @@
+2026-01-14 13:43:22,207 [9] INFO  Program - Someone accessed root endpoint. (Endpoint: /)
+2026-01-14 13:45:08,408 [17] INFO  Program - Someone accessed /courts endpoint.
+2026-01-14 13:58:38,017 [19] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-14 13:58:38,360 [19] INFO  Program - Generated captcha image. (Session ID: deddd1c3-1136-4b90-9801-38e9e92aec80)
+2026-01-14 13:58:41,453 [23] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-14 13:58:41,488 [23] INFO  Program - Generated captcha image. (Session ID: 811429f1-07ce-4026-acdb-3179c7a2dc6b)
+2026-01-14 13:58:44,834 [15] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-14 13:58:44,875 [15] INFO  Program - Generated captcha image. (Session ID: b1895037-0b3a-4c78-b50f-8a86d7857ddb)
+2026-01-14 14:01:08,470 [24] INFO  Program - Someone accessed /courts endpoint.
+2026-01-14 14:03:40,639 [15] INFO  Program - Someone accessed /courts endpoint.
+2026-01-14 18:34:23,342 [15] INFO  Program - Someone accessed /courts endpoint.
+2026-01-14 18:38:35,471 [3] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-14 18:38:35,805 [3] INFO  Program - Generated captcha image. (Session ID: 450231d1-c492-492b-8b1e-a3b86e4cf130)
+2026-01-14 18:38:59,064 [16] INFO  Program - Someone accessed /courts endpoint.
+2026-01-14 18:39:25,076 [21] INFO  Program - Someone accessed /courts endpoint.
+2026-01-14 18:52:35,811 [13] INFO  Program - Received contact details request. Court Case Number: 12345, Court House: Test Court House
+2026-01-14 18:52:35,824 [13] INFO  Program - Contact details validation successful for Court Case Number: 12345
+2026-01-14 18:53:18,114 [3] INFO  Program - Someone accessed /courts endpoint.
+2026-01-14 18:53:21,982 [22] INFO  Program - Received contact details request. Court Case Number: ads434, Court House: בית משפט ה
+2026-01-14 18:53:21,982 [22] INFO  Program - Contact details validation successful for Court Case Number: ads434
+2026-01-14 19:47:59,484 [24] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-14 19:47:59,885 [24] INFO  Program - Generated captcha image. (Session ID: 32c58f3f-adfe-48ce-ae8e-9c18137bd95a)
+2026-01-14 23:38:48,164 [27] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-14 23:38:48,421 [27] INFO  Program - Generated captcha image. (Session ID: 10012fbe-37cb-400c-8b54-28f8b211ed01)
+2026-01-15 09:02:04,437 [33] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:02:04,545 [33] INFO  Program - Generated captcha image. (Session ID: 1416e0fb-066f-4196-b6d3-28eac404798a)
+2026-01-15 09:02:28,311 [26] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:02:28,360 [26] INFO  Program - Generated captcha image. (Session ID: acf6ad0e-5f28-48ee-b8cb-9865be2bbb55)
+2026-01-15 09:02:37,142 [28] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:02:37,159 [28] INFO  Program - Generated captcha image. (Session ID: 7119162e-0277-4777-90b8-48992006535c)
+2026-01-15 09:02:40,262 [28] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:02:40,286 [28] INFO  Program - Generated captcha image. (Session ID: 2977fee5-2ae3-4ccc-9950-39fd4edd7004)
+2026-01-15 09:02:45,981 [28] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:02:46,030 [28] INFO  Program - Generated captcha image. (Session ID: 838543ea-e178-484a-9e2a-185cf2f9cebe)
+2026-01-15 09:02:47,986 [28] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:02:48,017 [28] INFO  Program - Generated captcha image. (Session ID: 5eb8a5b8-2f8d-4b12-8d72-0db6d6f87ab5)
+2026-01-15 09:02:55,046 [28] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:02:55,071 [28] INFO  Program - Generated captcha image. (Session ID: 64f903bf-29a0-4c3c-a093-53aad32b51e0)
+2026-01-15 09:03:39,669 [35] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:03:39,829 [35] INFO  Program - Generated captcha image. (Session ID: 25e2fa2c-e7a5-45c6-9931-89cd3fec10a7)
+2026-01-15 09:04:17,964 [26] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:04:17,990 [26] INFO  Program - Generated captcha image. (Session ID: c611ed55-3047-4a67-8abc-9a710c268494)
+2026-01-15 09:04:24,152 [39] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:04:24,218 [39] INFO  Program - Generated captcha image. (Session ID: d1ad827f-dd81-49b4-913b-69649d003128)
+2026-01-15 09:04:27,292 [39] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:04:27,320 [39] INFO  Program - Generated captcha image. (Session ID: bebdf69b-7dcb-458b-96c0-57f199215608)
+2026-01-15 09:04:58,338 [36] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:04:58,390 [36] INFO  Program - Generated captcha image. (Session ID: d945867b-3fbd-4ec4-847c-172cc95dd3ca)
+2026-01-15 09:05:01,989 [38] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:05:02,016 [38] INFO  Program - Generated captcha image. (Session ID: c5dad214-2c80-4424-b256-7fe84bcc22a2)
+2026-01-15 09:05:04,217 [38] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:05:04,264 [38] INFO  Program - Generated captcha image. (Session ID: 85e4246e-95d5-4074-8594-6c7d65d545bf)
+2026-01-15 09:08:26,939 [32] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:08:26,965 [32] INFO  Program - Generated captcha image. (Session ID: bc6cc8f7-f7c3-4b07-a4df-800a82114160)
+2026-01-15 09:09:07,293 [14] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:09:07,629 [14] INFO  Program - Generated captcha image. (Session ID: 98ceb1ac-4e57-4860-a5fa-b99fbd692b24)
+2026-01-15 09:09:20,573 [16] INFO  Program - Someone accessed /courts endpoint.
+2026-01-15 09:10:00,846 [12] INFO  Program - Someone accessed /courts endpoint.
+2026-01-15 09:10:07,135 [16] INFO  Program - Someone accessed /courts endpoint.
+2026-01-15 09:25:09,809 [12] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:25:09,880 [12] INFO  Program - Generated captcha image. (Session ID: 36c6c0c1-dddf-4b8d-8a2c-a510acd57072)
+2026-01-15 09:25:20,176 [12] INFO  Program - Someone accessed /courts endpoint.
+2026-01-15 09:25:42,901 [22] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:25:42,950 [22] INFO  Program - Generated captcha image. (Session ID: a55cbf5e-921b-4d80-92ec-cd2551672a0d)
+2026-01-15 09:27:32,799 [17] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:27:32,848 [17] INFO  Program - Generated captcha image. (Session ID: b10f4353-309e-4a13-bddd-f5f7a38f3166)
+2026-01-15 09:30:12,686 [25] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:30:12,793 [25] INFO  Program - Generated captcha image. (Session ID: b4971972-e231-4307-9549-fceb0c55a257)
+2026-01-15 09:30:43,514 [24] INFO  Program - Someone accessed /courts endpoint.
+2026-01-15 09:31:10,949 [24] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:31:10,967 [24] INFO  Program - Generated captcha image. (Session ID: 613190a0-9e29-4800-a083-ea3ab6c209aa)
+2026-01-15 09:37:40,889 [27] INFO  Program - Received 1 files
+2026-01-15 09:42:03,199 [30] INFO  Program - Received 1 files
+2026-01-15 09:42:20,786 [11] INFO  Program - Received 1 files
+2026-01-15 09:42:20,800 [11] INFO  Program - Files detected. File count is 1
+2026-01-15 09:42:20,800 [11] INFO  Program - File being saved
+2026-01-15 09:42:20,802 [7] INFO  Program - File was saved.
+2026-01-15 09:47:46,644 [14] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:47:46,976 [14] INFO  Program - Generated captcha image. (Session ID: 881155a7-dbd7-4bc2-a711-60c653705351)
+2026-01-15 09:48:03,048 [13] INFO  Program - Received 0 files
+2026-01-15 09:48:03,049 [13] INFO  Program - Files detected. File count is 0
+2026-01-15 09:48:29,843 [3] INFO  Program - Received 1 files
+2026-01-15 09:48:29,843 [3] INFO  Program - Files detected. File count is 1
+2026-01-15 09:48:29,844 [3] INFO  Program - File being saved
+2026-01-15 09:48:29,849 [13] INFO  Program - File was saved.
+2026-01-15 09:52:03,821 [15] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:52:04,078 [15] INFO  Program - Generated captcha image. (Session ID: 75d6a1e5-3889-4df8-bc07-d05b9ae6c598)
+2026-01-15 09:53:07,781 [18] INFO  Program - Received 1 files
+2026-01-15 09:53:07,782 [18] INFO  Program - Files detected. File count is 1
+2026-01-15 09:53:07,782 [18] INFO  Program - File being saved
+2026-01-15 09:53:07,784 [19] INFO  Program - File was saved.
+2026-01-15 09:53:07,785 [19] INFO  Program - Captcha validation - SessionId: 613190a0-9e29-4800-a083-ea3ab6c209aa, UserInput: RPEKAO
+2026-01-15 09:53:07,786 [19] INFO  Program - Captcha validation failed.
+2026-01-15 09:57:47,849 [13] INFO  Program - Someone accessed /courts endpoint.
+2026-01-15 09:58:11,856 [12] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:58:12,232 [12] INFO  Program - Generated captcha image. (Session ID: 78a772bf-1310-40d3-b002-a0e74b167084)
+2026-01-15 09:58:27,070 [15] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:58:27,106 [15] INFO  Program - Generated captcha image. (Session ID: 387734ea-887d-439b-a655-a418b89a5f3e)
+2026-01-15 09:58:36,598 [17] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 09:58:36,627 [17] INFO  Program - Generated captcha image. (Session ID: 7f60666b-8ac2-4860-bdd6-b14af6c43f1f)
+2026-01-15 09:59:04,592 [17] INFO  Program - Received 0 files
+2026-01-15 09:59:04,592 [17] INFO  Program - Files detected. File count is 0
+2026-01-15 09:59:04,592 [17] INFO  Program - Captcha validation - SessionId: 7f60666b-8ac2-4860-bdd6-b14af6c43f1f, UserInput: WRONGCODE
+2026-01-15 09:59:04,593 [17] INFO  Program - Captcha validation failed.
+2026-01-15 10:00:23,303 [13] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 10:00:23,545 [13] INFO  Program - Generated captcha image. (Session ID: 6e22490c-7c00-49d8-b20c-59713f4ba7d3)
+2026-01-15 10:00:45,661 [17] INFO  Program - Received 0 files
+2026-01-15 10:00:45,662 [17] INFO  Program - Files detected. File count is 0
+2026-01-15 10:00:45,662 [17] INFO  Program - Captcha validation - SessionId: 6e22490c-7c00-49d8-b20c-59713f4ba7d3, UserInput: W2GVXT
+2026-01-15 10:00:45,662 [17] INFO  Program - Captcha validated successfully.
+2026-01-15 10:00:55,374 [12] INFO  Program - Received 0 files
+2026-01-15 10:00:55,375 [12] INFO  Program - Files detected. File count is 0
+2026-01-15 10:00:55,375 [12] INFO  Program - Captcha validation - SessionId: 6e22490c-7c00-49d8-b20c-59713f4ba7d3, UserInput: W2GVXT
+2026-01-15 10:00:55,375 [12] INFO  Program - Captcha validation failed.
+2026-01-15 10:01:38,673 [17] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 10:01:38,702 [17] INFO  Program - Generated captcha image. (Session ID: af10edda-f599-4992-9e08-2e945ed32b15)
+2026-01-15 10:01:38,799 [19] INFO  Program - Received 0 files
+2026-01-15 10:01:38,799 [19] INFO  Program - Files detected. File count is 0
+2026-01-15 10:01:38,799 [19] INFO  Program - Captcha validation - SessionId: af10edda-f599-4992-9e08-2e945ed32b15, UserInput: 08N0QE
+2026-01-15 10:01:38,799 [19] INFO  Program - Captcha validated successfully.
+2026-01-15 10:02:31,139 [21] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 10:02:31,185 [21] INFO  Program - Generated captcha image. (Session ID: b3d62fd9-03a5-4fbd-aad6-cd74cf8d77cd)
+2026-01-15 10:02:43,800 [17] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 10:02:43,824 [17] INFO  Program - Generated captcha image. (Session ID: 61351645-f330-4b35-b89b-d5322c838875)
+2026-01-15 10:03:31,939 [17] INFO  Program - Someone accessed /courts endpoint.
+2026-01-15 10:03:42,646 [22] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 10:03:42,666 [22] INFO  Program - Generated captcha image. (Session ID: c34f4a90-f1d0-4928-a7af-96bfaad5e950)
+2026-01-15 10:03:56,061 [24] INFO  Program - Received 1 files
+2026-01-15 10:03:56,063 [24] INFO  Program - Files detected. File count is 1
+2026-01-15 10:03:56,063 [24] INFO  Program - File being saved
+2026-01-15 10:03:56,065 [23] INFO  Program - File was saved.
+2026-01-15 10:03:56,065 [23] INFO  Program - Captcha validation - SessionId: c34f4a90-f1d0-4928-a7af-96bfaad5e950, UserInput: A7NNQO
+2026-01-15 10:03:56,065 [23] INFO  Program - Captcha validated successfully.
+2026-01-15 10:04:42,475 [24] INFO  Program - Someone accessed /captcha endpoint.
+2026-01-15 10:04:42,499 [24] INFO  Program - Generated captcha image. (Session ID: 803a053c-5010-4e90-816d-a96e84520e3c)

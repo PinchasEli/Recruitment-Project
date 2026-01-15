@@ -1,4 +1,4 @@
-﻿using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp;
 using System.Text;
 using SixLabors.ImageSharp.Processing;
@@ -169,10 +169,12 @@ namespace PublicComplaintForm_API.Services
             if (!cache.TryGetValue(captchaSessionId, out var storedCaptchaCode))
                 return false;
 
-            if (!storedCaptchaCode.ToString().ToLower().Equals(userInput.ToLower()))
+            var storedCode = storedCaptchaCode?.ToString() ?? "";
+            Debug.WriteLine($"Stored code: {storedCode}, User input: {userInput}");
+
+            if (!storedCode.Equals(userInput, StringComparison.OrdinalIgnoreCase))
             {
-                Debug.WriteLine(storedCaptchaCode.ToString());
-                Debug.WriteLine(userInput);
+                Debug.WriteLine($"Captcha mismatch - Expected: {storedCode}, Got: {userInput}");
                 return false;
             }
 

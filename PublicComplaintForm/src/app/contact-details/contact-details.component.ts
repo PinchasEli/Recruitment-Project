@@ -8,6 +8,7 @@ import { BreadcrumbsManagerService } from '../breadcrumbs-manager.service';
 import { MatSelectModule } from '@angular/material/select';
 import { CourtHandlerService } from '../court-handler.service';
 
+
 @Component({
 	selector: 'app-contact-details',
 	standalone: true,
@@ -15,74 +16,47 @@ import { CourtHandlerService } from '../court-handler.service';
 	templateUrl: './contact-details.component.html',
 	styleUrl: './contact-details.component.scss'
 })
-
 export class ContactDetailsComponent implements OnInit 
 {
-	constructor(private breadcrumbsManagerService: BreadcrumbsManagerService,
-				private formBuilder: FormBuilder,
-				private router: Router,
-				private formHandlerService: FormHandlerService,
-				private courtHandlerService: CourtHandlerService) {}
-
-	textAreaRemainingCharacters: string = "7000 תווים נותרו";
-
-	selectedCourt: string | undefined = undefined;
-	courtsList: any = [
-		'בית משפט א',
-		'בית משפט ב',
-		'בית משפט ג',
-		'בית משפט ד',
-		'בית משפט ה',
-		'בית משפט ו',
-		'בית משפט ז',
-		'בית משפט ח',
-		'בית משפט ט',
-	]
-
-	form: any;
+	form!: FormGroup;
 	currentPage = "step3";
+	isSubmitting = false;
+	textAreaRemainingCharacters: string = "7000 תווים נותרו";
+	readonly maxTextAreaLength = 7000;
+	
+	selectedCourt: string | undefined = undefined;
+	courtsList: any;
+
+	constructor(
+		private breadcrumbsManagerService: BreadcrumbsManagerService,
+		private formBuilder: FormBuilder,
+		private router: Router,
+		private formHandlerService: FormHandlerService,
+		private courtHandlerService: CourtHandlerService
+	) {}
 
 	async ngOnInit() 
 	{
 		this.form = this.formBuilder.group({
 			contactDescription: ['', Validators.required],
-			courtCaseNumber: [''],
-			courthouse: ['']
+			courtCaseNumber: ['', Validators.required],
+			courthouse: ['', Validators.required]
 		});
-		//this.form = this.formHandlerService.getStepValues('3');
 
 		(await this.courtHandlerService.getCourtsList()).subscribe({
 			next: (data: any) => {
 				this.courtsList = data.courtsList;
-
 				console.log(data);
 			},
 			error: (error: any) => {
 				console.log(error);
 			},
-			complete: () => {
-				
-			}
-		})
+			complete: () => {}
+		});
 
 		this.updateFormGroup();
 
-		const textArea = document.getElementById('contact-description-textarea') as HTMLTextAreaElement;
-		const currentValue = textArea.value;
-
-		const lengthRemaining = 7000 - currentValue.length;
-
-		this.textAreaRemainingCharacters = `${lengthRemaining} תווים נותרו`;
-
-		if(lengthRemaining < 0)
-		{
-			textArea.value = currentValue.substring(0, 7000);
-			this.textAreaRemainingCharacters = `0 תווים נותרו`;
-			this.textAreaRemainingCharacters = `0 תווים נותרו`;
-			console.log("Zero tavim.");
-		}
-
-		
+		this.updateCharacterCounter();
 	}
 
 	ngAfterViewInit(): void
@@ -101,21 +75,36 @@ export class ContactDetailsComponent implements OnInit
 		this.formHandlerService.updateStepFields('3', this.form);
 	}
 
+	OnTextAreaChanged(event: Event)
+	{
+		const textArea = event.target as HTMLTextAreaElement;
+		const currentValue = textArea.value;
+
+		if(currentValue.length > this.maxTextAreaLength)
+		{
+			textArea.value = currentValue.substring(0, this.maxTextAreaLength);
+		}
+
+		this.updateCharacterCounter();
+	}
+
+	private updateCharacterCounter(): void
+	{
+		const currentValue = this.form.get('contactDescription')?.value || '';
+		const lengthRemaining = Math.max(0, this.maxTextAreaLength - currentValue.length);
+		this.textAreaRemainingCharacters = `${lengthRemaining} תווים נותרו`;
+	}
+
 	GoToNextStep()
 	{
-		console.log(this.form.get('courthouse').value);
 		this.formHandlerService.updateStepFields('3', this.form);
-		//this.form = this.formHandlerService.getStepValues('3');
 
 		if(!this.form.valid)
 		{
-			console.log(this.form.errors);
-
 			Object.keys(this.form.controls).forEach(field => {
 				const control = this.form.get(field);
 				control?.markAsTouched({ onlySelf: true });
 			});
-
 			return;
 		}
 
@@ -132,34 +121,35 @@ export class ContactDetailsComponent implements OnInit
 	{
 		var stepForm = this.formHandlerService.getStepValues('3');
 
-		Object.keys(stepForm.controls).forEach((controlName) => {
-
-			if(controlName === "courthouse")
-			{
-				this.selectedCourt = stepForm.get(controlName)?.value;
-				this.form.patchValue({
-					courthouse: this.selectedCourt
-				});
-			}
-
-			else if(this.form.contains(controlName))
-				this.form?.get(controlName)?.setValue(stepForm.get(controlName)?.value);
-		});
+		if(stepForm) {
+			Object.keys(stepForm.controls).forEach((controlName) => {
+				if(controlName === "courthouse")
+				{
+					this.selectedCourt = stepForm.get(controlName)?.value;
+					this.form.patchValue({
+						courthouse: this.selectedCourt
+					});
+				}
+				else if(this.form.contains(controlName))
+					this.form?.get(controlName)?.setValue(stepForm.get(controlName)?.value);
+			});
+		}
 	}
 
-	OnTextAreaChanged(event: Event)
+	async submitContactDetails()
 	{
-		const textArea = event.target as HTMLTextAreaElement;
-		const currentValue = textArea.value;
-
-		const lengthRemaining = 7000 - currentValue.length;
-
-		this.textAreaRemainingCharacters = `${lengthRemaining} תווים נותרו`;
-
-		if(lengthRemaining < 0)
+		this.isSubmitting = true;
+		if(!this.form.valid)
 		{
-			textArea.value = currentValue.substring(0, 7000);
-			this.textAreaRemainingCharacters = `0 תווים נותרו`;
+			Object.keys(this.form.controls).forEach(field => {
+				const control = this.form.get(field);
+				control?.markAsTouched({ onlySelf: true });
+			});
+			this.isSubmitting = false;
+			return;
 		}
+
+		this.GoToNextStep();
+		this.isSubmitting = false;
 	}
 }

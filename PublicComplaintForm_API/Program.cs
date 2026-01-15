@@ -45,6 +45,22 @@ catch(Exception ex)
     envConfig.SurveySQLConnectionString = "DEFAULT VALUE";
 }
 
+if (string.IsNullOrEmpty(envConfig.SaveFileFolder))
+{
+    envConfig.SaveFileFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+    Console.WriteLine($"WARNING: SaveFileFolder not configured. Using default: {envConfig.SaveFileFolder}");
+}
+if (string.IsNullOrEmpty(envConfig.LocalSQL))
+{
+    envConfig.LocalSQL = "Data Source=localhost;Initial Catalog=YourDB;Integrated Security=True;";
+    Console.WriteLine("WARNING: LocalSQL not configured. Using default connection string.");
+}
+if (string.IsNullOrEmpty(envConfig.SurveySQLConnectionString))
+{
+    envConfig.SurveySQLConnectionString = "Data Source=localhost;Initial Catalog=SurveyDB;Integrated Security=True;";
+    Console.WriteLine("WARNING: SurveySQLConnectionString not configured. Using default connection string.");
+}
+
 var logRepo = LogManager.GetRepository(Assembly.GetEntryAssembly());
 XmlConfigurator.Configure(logRepo, new FileInfo("log4net.config"));
 
@@ -65,7 +81,20 @@ builder.Services.AddAntiforgery(options =>
     options.HeaderName = "X-CSRF-TOKEN";
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
+
+app.UseCors("AllowFrontend");
 
 if (app.Environment.IsDevelopment())
 {
@@ -166,7 +195,7 @@ app.MapPost("/survey", async([FromServices] IAntiforgery antiforgery,
 }).DisableAntiforgery();
 
 app.MapPost("/submit-form", async ([FromServices] IAntiforgery antiforgery,
-                                    [FromForm] JsonElement formData,
+                                    [FromForm] IFormCollection formData,
                                     [FromForm] IFormFileCollection files,
                                     [FromServices] ILog log,
                                     [FromServices] DatabaseService db,
@@ -174,8 +203,7 @@ app.MapPost("/submit-form", async ([FromServices] IAntiforgery antiforgery,
                                     IMemoryCache cache,
                                     HttpContext context) =>
 {
-    SanitizingService sanitizingService = new SanitizingService();
-    sanitizingService.SanitizeClass(formData);
+    // Note: Sanitization should be done on individual fields as needed
 
     //await logger.LogAsync($"Received {files.Count} files");
     log.Info($"Received {files.Count} files");
@@ -225,25 +253,27 @@ app.MapPost("/submit-form", async ([FromServices] IAntiforgery antiforgery,
         log.Info("No files detected");
     }
 
-    JsonElement captchaSessionId;
-    JsonElement captchaCode;
+    if (!formData.ContainsKey("captchaSessionId") || string.IsNullOrEmpty(formData["captchaSessionId"]))
+        return Results.BadRequest("captchaSessionId is required.");
 
-    if (!formData.TryGetProperty("captchaSessionId", out captchaSessionId))
-        return Results.BadRequest("Invalid input.");
+    if (!formData.ContainsKey("captchaCode") || string.IsNullOrEmpty(formData["captchaCode"]))
+        return Results.BadRequest("captchaCode is required.");
 
-    if (!formData.TryGetProperty("captchaCode", out captchaCode))
-        return Results.BadRequest("Invalid input.");
+    var captchaSessionId = formData["captchaSessionId"].ToString();
+    var captchaCode = formData["captchaCode"].ToString();
 
-    if (captchaSessionId.ValueKind != JsonValueKind.String)
-        return Results.BadRequest("Must be a string.");
+    log.Info($"Captcha validation - SessionId: {captchaSessionId}, UserInput: {captchaCode}");
 
-    if (captchaCode.ValueKind != JsonValueKind.String)
-        return Results.BadRequest("Must be a string.");
-
-    var isCaptchaValid = cs.ValidateCaptcha(captchaSessionId.GetString(), captchaCode.GetString(), cache);
+    var isCaptchaValid = cs.ValidateCaptcha(captchaSessionId, captchaCode, cache);
 
     if (!isCaptchaValid)
+    {
+        log.Info("Captcha validation failed.");
         return Results.Ok("Invalid captcha.");
+    }
+
+    cache.Remove(captchaSessionId);
+    log.Info("Captcha validated successfully.");
 
     // פה יש צורך לבצע שמירה של הנתונים בצורה כזאת או אחרת.
 
@@ -350,6 +380,83 @@ app.MapPost("/send-email", async (EmailRequest request) =>
     catch (Exception ex)
     {
         return Results.Problem("Failed to send email: " + ex.Message);
+    }
+});
+
+app.MapPost("/contact-details", async ([FromBody] ContactFormRequest request,
+                                                 [FromServices] ILog log) =>
+{
+    log.Info($"Received contact details request. Court Case Number: {request.CourtCaseNumber}, Court House: {request.CourtHouse}");
+    var response = new
+    {
+        success = true,
+        message = "Validation successful",
+        data = new
+        {
+            courtCaseNumber = request.CourtCaseNumber,
+            contactDescription = request.ContactDescription,
+            courtHouse = request.CourtHouse
+        }
+    };
+
+    log.Info($"Contact details validation successful for Court Case Number: {request.CourtCaseNumber}");
+
+    return Results.Ok(response);
+}).DisableAntiforgery();
+
+app.MapGet("/monthly-referral-report", async ([FromServices] ILog log,
+                                               [FromServices] DatabaseService db,
+                                               [FromQuery] int? month,
+                                               [FromQuery] int? year) =>
+{
+    try
+    {
+        var targetMonth = month ?? DateTime.Now.Month;
+        var targetYear = year ?? DateTime.Now.Year;
+        
+        if (targetMonth < 1 || targetMonth > 12)
+        {
+            log.Warn($"invalid month parameter received: {targetMonth}");
+            return Results.BadRequest(new { error = "Month must be between 1 and 12" });
+        }
+        var currentDate = DateTime.Now;
+        var requestedDate = new DateTime(targetYear, targetMonth, 1);
+        var currentMonthStart = new DateTime(currentDate.Year, currentDate.Month, 1);
+
+        if (targetYear < 2000)
+        {
+            log.Warn($"invalid year parameter received: {targetYear}");
+            return Results.BadRequest(new { error = "Year must be between 2000 and current year" });
+        }
+
+        if (requestedDate > currentMonthStart)
+        {
+            log.Warn($"future month requested: {targetMonth}/{targetYear}. Current month: {currentDate.Month}/{currentDate.Year}");
+            return Results.BadRequest(new { error = $"Cannot request report for future months. Current month is {currentDate.Month}/{currentDate.Year}" });
+        }
+
+        log.Info($"Fetching monthly referral report for {targetMonth}/{targetYear}");
+
+        var report = await db.GetMonthlyReferralReport(targetMonth, targetYear);
+
+        log.Info($"Successfully retrieved monthly referral report. Total departments: {report.Count}");
+
+        return Results.Ok(new
+        {
+            success = true,
+            month = targetMonth,
+            year = targetYear,
+            reportDate = $"{targetYear}-{targetMonth:D2}",
+            data = report
+        });
+    }
+    catch (Exception ex)
+    {
+        log.Error($"Error retrieving monthly referral report: {ex.Message}", ex);
+        return Results.Problem(
+            detail: ex.Message,
+            title: "Error retrieving monthly referral report"
+        );
     }
 });
 

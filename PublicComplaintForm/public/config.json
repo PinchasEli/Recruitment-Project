@@ -1,22 +1,22 @@
 {
 	"production":
 	{
-		"apiUrl": ""
+		"apiUrl": "https://api.production.example.com"
 	},
 	"dmztest":
 	{
-		"apiUrl": ""
+		"apiUrl": "https://api.dmztest.example.com"
 	},
 	"crm9d":
 	{
-		"apiUrl": ""
+		"apiUrl": "https://api.crm9d.example.com"
 	},
 	"localhost":
 	{
-		"apiUrl": ""
+		"apiUrl": "http://localhost:5209"
 	},
 	"dmztest_f5":
 	{
-		"apiUrl": ""
+		"apiUrl": "https://api.dmztest-f5.example.com"
 	}
 }

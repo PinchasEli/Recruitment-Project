@@ -8,6 +8,64 @@
     <h2 class="sub-title">פרטי הפניה</h2>
 
     <div class="form-container" [formGroup]="form">
+        
+        <div class="description-text-container">
+            <img src="description-icon.svg" alt="אייקון מידע"/>
+            <p class="description-text">
+                יש לכלול תיאור נשוא ומהות הפניה, יש לכתוב באופן תמציתי ובהיר את מה שעוושים או מבקשים,
+                תחו ציין פרטים ולוגיסטיים לצור סיפוק בפניה ומועדים של האירועים בהם עוסקת הפניה.
+            </p>
+        </div>
+
+        <div class="form-field-container">
+            <label class="field-label">מהות הפניה</label>
+            <textarea 
+                id="contact-description-textarea"
+                formControlName="contactDescription"
+                class="text-area-input"
+                [class.error]="form.get('contactDescription')?.invalid && form.get('contactDescription')?.touched"
+                (input)="OnTextAreaChanged($event)"
+                rows="8"
+            ></textarea>
+            <p class="character-counter">{{ textAreaRemainingCharacters }}</p>
+            <div class="error-message" *ngIf="form.get('contactDescription')?.invalid && form.get('contactDescription')?.touched">
+                שדה חובה
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-field-container">
+                <label class="field-label">מספר תיק בית המשפט</label>
+                <input 
+                    type="text" 
+                    formControlName="courtCaseNumber"
+                    class="text-input"
+                    [class.error]="form.get('courtCaseNumber')?.invalid && form.get('courtCaseNumber')?.touched"
+                    placeholder=""
+                />
+                <div class="error-message" *ngIf="form.get('courtCaseNumber')?.invalid && form.get('courtCaseNumber')?.touched">
+                    שדה חובה
+                </div>
+            </div>
+
+            <div class="form-field-container">
+                <label class="field-label">בית המשפט</label>
+                <mat-select 
+                    class="dropdown-element" 
+                    formControlName="courthouse"
+                    [class.error]="form.get('courthouse')?.invalid && form.get('courthouse')?.touched"
+                    (selectionChange)="OnCourtSelectionChanged($event)"
+                    [value]="selectedCourt"
+                >
+                    <mat-option *ngFor="let court of courtsList" [value]="court.courtId">
+                        {{ court.courtName }}
+                    </mat-option>
+                </mat-select>
+                <div class="error-message" *ngIf="form.get('courthouse')?.invalid && form.get('courthouse')?.touched">
+                    שדה חובה
+                </div>
+            </div>
+        </div>
 
     </div>
 
@@ -15,10 +73,12 @@
 
         <div class="back-button-container">
             <img src="back-arrow.svg"/>
-            <button class="prev-button" (click)="GoToPrevPage()">חזרה</button>
+            <button class="prev-button" (click)="GoToPrevPage()" [disabled]="isSubmitting">חזרה</button>
         </div>
         
-        <button class="next-button" (click)="GoToNextStep()">המשך</button>
+        <button class="next-button" (click)="submitContactDetails()" [disabled]="isSubmitting">
+            {{ isSubmitting ? 'המתבצעת פעולה...' : 'המשך' }}
+        </button>
     </div>
 
 </div>

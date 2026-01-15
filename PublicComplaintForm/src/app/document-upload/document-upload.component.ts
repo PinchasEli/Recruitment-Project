@@ -33,8 +33,13 @@ export class DocumentUploadComponent implements OnInit
 	{
 		this.breadcrumbsManagerService.setStep(4);
 		this.didUseYipuyKoach = this.formDataService.getStepValues('2').get('isComplaintOnBehalfOfSomeone').value;
+		
+		// load existing files from service
 		this.yipuyKoachFile = this.formDataService.YipuyKoachFile;
 		this.selectedFiles = this.formDataService.getUploadedFiles();
+		
+		// update step4 state
+		this.formDataService.updateStep4State();
 	}
 
 	onFileSelected(event: any)
@@ -92,7 +97,17 @@ export class DocumentUploadComponent implements OnInit
 
 				if(!((this.fileSizes[counter-1] === 'Mb' && fileSize > 10) || (this.fileSizes[counter-1] === 'Gb')))
 				{
-					this.selectedFiles.push({ 'fileName': file.name, 'fileSize': fileSize + ' ' + this.fileSizes[counter-1], 'fileSizeUnits': this.fileSizes[counter-1], 'statusImage': 'file-done-icon.svg', 'status': true, 'file': file, 'fileNameTrunc': truncFileName });
+					const fileData = { 
+						'fileName': file.name, 
+						'fileSize': fileSize + ' ' + this.fileSizes[counter-1], 
+						'fileSizeUnits': this.fileSizes[counter-1], 
+						'statusImage': 'file-done-icon.svg', 
+						'status': true, 
+						'file': file, 
+						'fileNameTrunc': truncFileName 
+					};
+					
+					this.formDataService.addFile(fileData);
 					this.showFileErrorMessage = false;
 				}
 				else
@@ -100,15 +115,11 @@ export class DocumentUploadComponent implements OnInit
 					this.fileErrorMessage = "בעיה - נא לוודא שגודל הקובץ אינו עולה על 10MB. בנוסף, יש לוודא שסכום גודל הקבצים אינו עולה על 50MB.";
 					this.showFileErrorMessage = true;
 				}
-				//this.formDataService.addFile(this.selectedFiles[this.selectedFiles.length - 1]);
 			}
 		}
 
-
+		this.formDataService.updateStep4State();
 		(event.target as HTMLInputElement).value = '';
-		//var filePicker = document.getElementById('filePicker') as HTMLInputElement;
-
-		//filePicker.value = '';
 	}
 
 	onYipuyKoachFileSelected(event: any)
@@ -141,8 +152,16 @@ export class DocumentUploadComponent implements OnInit
 				
 				if(!((this.fileSizes[counter-1] === 'Mb' && fileSize > 10) || (this.fileSizes[counter-1] === 'Gb')))
 				{
-					this.yipuyKoachFile = { 'fileName': file.name, 'fileSize': fileSize + ' ' + this.fileSizes[counter-1], 'fileSizeUnits': this.fileSizes[counter-1], 'statusImage': 'file-done-icon.svg', 'status': true, 'file': file };
-					this.formDataService.YipuyKoachFile = this.yipuyKoachFile;
+					this.yipuyKoachFile = { 
+						'fileName': file.name, 
+						'fileSize': fileSize + ' ' + this.fileSizes[counter-1], 
+						'fileSizeUnits': this.fileSizes[counter-1], 
+						'statusImage': 'file-done-icon.svg', 
+						'status': true, 
+						'file': file 
+					};
+					this.formDataService.setYipuyKoachFile(this.yipuyKoachFile);
+					this.showFileErrorMessage = false;
 				}
 				else
 				{
@@ -152,17 +171,15 @@ export class DocumentUploadComponent implements OnInit
 			}
 		}
 
-
+		this.formDataService.updateStep4State();
 		(event.target as HTMLInputElement).value = '';
-		// var filePicker = document.getElementById('filePicker') as HTMLInputElement;
-
-		// filePicker.value = '';
 	}
 
 	DeleteFile(index: number)
 	{
-		this.selectedFiles.splice(index, 1);
-		this.formDataService.removeFile(index);
+		this.formDataService.removeFileWithIndex(index);
+		this.formDataService.updateStep4State();
+		this.showFileErrorMessage = false;
 	}
 
 	DeleteYipuyKoachFile(event: MouseEvent)
@@ -170,7 +187,9 @@ export class DocumentUploadComponent implements OnInit
 		event.stopPropagation();
 		
 		this.yipuyKoachFile = undefined;
-		this.formDataService.YipuyKoachFile = undefined;
+		this.formDataService.clearYipuyKoachFile();
+		this.formDataService.updateStep4State();
+		this.showFileErrorMessage = false;
 	}
 
 	GoToNextStep()
@@ -180,8 +199,8 @@ export class DocumentUploadComponent implements OnInit
 			if(this.yipuyKoachFile)
 			{
 				this.showErrorMessage = false;
-				//this.formDataService.addFiles(this.selectedFiles);
-				this.formDataService.YipuyKoachFile = this.yipuyKoachFile;
+
+				this.formDataService.updateStep4State();
 				this.router.navigate(['/step5']);
 			}
 			else 
@@ -191,17 +210,15 @@ export class DocumentUploadComponent implements OnInit
 		}
 		else
 		{
-			//this.formDataService.addFiles(this.selectedFiles);
 			this.showErrorMessage = false;
+			this.formDataService.updateStep4State();
 			this.router.navigate(['/step5']);
 		}
 	}
 
 	GoToPrevStep()
 	{
-		if(this.yipuyKoachFile)
-			this.formDataService.YipuyKoachFile = this.yipuyKoachFile;
-
+		this.formDataService.updateStep4State();
 		this.router.navigate(['/step3']);
 	}
 }

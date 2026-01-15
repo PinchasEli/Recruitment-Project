@@ -15,6 +15,7 @@ export class FormHandlerService
 		step1: FormGroup,
 		step2: FormGroup,
 		step3: FormGroup,
+		step4: FormGroup,
 	};
 
 	uploadedFiles: any[] = [];
@@ -55,6 +56,11 @@ export class FormHandlerService
 				contactDescription: ['', Validators.required],
 				courtCaseNumber: ['', Validators.pattern('[0-9]+')],
 				courthouse: ['']
+			}),
+
+			step4: this.fb.group({
+				hasFiles: [false],
+				hasYipuyKoach: [false]
 			})
 		};
 	}
@@ -77,7 +83,8 @@ export class FormHandlerService
 		var newForm = new FormGroup({
 			...this.formData.step1.controls,
 			...this.formData.step2.controls,
-			...this.formData.step3.controls
+			...this.formData.step3.controls,
+			...this.formData.step4.controls
 		});
 
 		return newForm;
@@ -109,9 +116,32 @@ export class FormHandlerService
 			this.uploadedFiles.splice(index, 1);
 	}
 
-	removeFileWithIndex(index: any)
+	removeFileWithIndex(index: number)
 	{
 		this.uploadedFiles.splice(index, 1);
+	}
+
+	clearAllFiles()
+	{
+		this.uploadedFiles = [];
+	}
+
+	setYipuyKoachFile(file: any)
+	{
+		this.YipuyKoachFile = file;
+	}
+
+	clearYipuyKoachFile()
+	{
+		this.YipuyKoachFile = undefined;
+	}
+
+	updateStep4State()
+	{
+		this.formData.step4.patchValue({
+			hasFiles: this.uploadedFiles.length > 0,
+			hasYipuyKoach: this.YipuyKoachFile !== undefined
+		});
 	}
 
 	async doSubmitForm(captchaCode: any, sessionId: any)
